@@ -1,0 +1,161 @@
+﻿@model BefpicOnlineshoppingMall.Models.Home.HomeIndexModel
+    @using  PagedList
+@using PagedList.Mvc
+@{
+    ViewBag.Title = "Home Page";
+}
+
+<div id="themeSlider" class="carousel slide" data-ride="carousel">
+    <ol class="carousel-indicators">
+        <li data-target="#themeSlider" data-slide-to="0" class="active"></li>
+        <li data-target="#themeSlider" data-slide-to="1"></li>
+        <li data-target="#themeSlider" data-slide-to="2"></li>
+    </ol>
+
+    <div class="carousel-inner">
+        <div class="item active">
+            <div class="imgOverlay"></div>
+            <img style="height:370px; width:100%" src="~/Images/0_03_21_2017_08_03_26.jpg" alt="First slide">
+            <div class="carousel-caption">
+                <h3>First slide</h3>
+                <p>The Best Brand</p>
+            </div>
+        </div>
+        <div class="item">
+            <div class="imgOverlay"></div>
+            <img style="height:370px; width:100%" src="~/Images/2_03_21_2017_08_15_59.jpg" alt="Second slide">
+            <div class="carousel-caption">
+                <h3>Second slide</h3>
+                <p>The Best Brand</p>
+            </div>
+        </div>
+        <div class="item">
+            <div class="imgOverlay"></div>
+            <img style="height:370px; width:100%" src="~/Images/3_03_21_2017_08_19_28.jpg" alt="Third slide">
+            <div class="carousel-caption">
+                <h3>Third slide</h3>
+                <p>The Best Brand</p>
+            </div>
+        </div>
+
+        <div class="item">
+            <div class="imgOverlay"></div>
+            <img style="height:370px; width:100%" src="~/Images/4_03_21_2017_08_23_17.jpg" alt="Fourth slide">
+            <div class="carousel-caption">
+                <h3>Fourth slide</h3>
+                <p>The Best Brand</p>
+            </div>
+        </div>
+
+        <div class="item">
+            <div class="imgOverlay"></div>
+            <img style="height:370px; width:100%" src="~/Images/85_05_20_2018_11_20_09.jpg" /> alt="Fifth slide">
+            <div class="carousel-caption">
+                <h3>Fifth slide</h3>
+                <p>The Best Brand</p>
+            </div>
+        </div>
+    </div>
+
+    <a class="left carousel-control" href="#themeSlider" data-slide="prev">
+        <span class="fa fa-chevron-left"></span>
+    </a>
+    <a class="right carousel-control" href="#themeSlider" data-slide="next">
+        <span class="fa fa-chevron-right"></span>
+    </a>
+
+
+    <div class="main-text hidden-xs hidden-sm">
+        <div class="col-md-12 text-center">
+            <h1>BEFPIC ONLINE SHOPPING MALL</h1>
+            <h3>Branding Education Fashion Production Innovation Counselling </h3>
+            <div class="clearfix"></div>
+            <div class="carousel-btns">
+                <a class="btn btn-md btn-default" href="">Login</a>
+                <a class="btn btn-md btn-default" href="">Registration</a>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<div class="olContent f1"><h2 style="color:black">Search Product/Category</h2></div>
+
+<form method="post">
+    <div class="olSearch fr">
+        <input type="text" name="search" placeholder="Enter Keyword" class="inputComn houseText form-control" />
+        <div class="searchIcon">
+            <button type="submit" class="searchBtn">
+                <img src="~/Images/searchIcon.png" />
+            </button>
+        </div>
+
+
+    </div>
+</form>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="page-header">
+            <h2>BEFPIC Products <small> Trends Products</small></h2>
+        </div>
+    </div>
+</div>
+
+<div class="row product-container">
+
+    @*@foreach (var item in Model.ListOfProducts)
+        {*@
+
+    @foreach (var item in Model.productList)
+    {
+        <div class="col-md-3 col-sm-3 col-xs-6" style="margin-bottom:8px">
+            <div class="thumbnail product-item" style="height:300px">
+
+                <img class="img-responsive" title="Click to View Product detail"
+                     style="cursor:pointer;height:160px;width:100%"
+                     src="~/ProductImages/@item.ProductImage" />
+
+                <div class="caption">
+                    <p> @item.ProductName</p>
+                    <p> @item.Price</p>
+                    <p>
+                        @if (item.Quantity > 0)
+                        {
+
+                            using (Html.BeginForm("AddToCart", "Home", new { @productId = item.ProductId, Url = "Index" }, FormMethod.Post))
+                            {
+                                <button type="submit" class="pull-right"><i class="fa fa-shopping-cart"></i> </button>
+                            }
+                        <p> Available</p>
+
+                    }
+                    else
+                    {
+                        <p>Not Available</p>
+                    }
+
+                        <div class="product-item-badge">
+                            @if (item.IsFeatured == true)
+                            {
+                                <p>New</p>
+                            }
+                            else
+                            {
+                                <p>Old</p>
+                            }
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        }
+
+</div>
+
+<div class="container">
+    @Html.PagedListPager(Model.productList, page => Url.Action("Index", new { page, search = Request.QueryString["search"] }),
+   new PagedListRenderOptions() { Display = PagedListDisplayMode.IfNeeded, DisplayItemSliceAndTotal = true })
+</div>
+
